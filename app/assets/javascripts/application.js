@@ -190,10 +190,13 @@ function codeAddress(address) {
     if (status == "OK") {
       geoLocation = results[0].geometry.location;
 
+      
       console.log(results)
 
-      let geoLocation1 = results[0].geometry.bounds.b["f"];
-      let geoLocation2 = results[0].geometry.bounds.f["f"];
+      let geoLocation1 = (Number(results[0].geometry.bounds["j"]["j"]) + Number(results[0].geometry.bounds["j"]["l"])) / 2;
+      let geoLocation2 = (Number(results[0].geometry.bounds["l"]["j"]) + Number(results[0].geometry.bounds["l"]["l"])) / 2;
+      console.log(geoLocation1);
+      console.log(geoLocation2);
       localStorage.setItem("geoLocation1", geoLocation1);
       localStorage.setItem("geoLocation2", geoLocation2);
     } else {
@@ -214,13 +217,13 @@ function fillInAddress() {
 function initMap() {
   let main = {
     zoom: 16,
-    center: { lat: Number(geoLocation1), lng: Number(geoLocation2) }
+    center: { lat: Number(localStorage.getItem("geoLocation1")), lng: Number(localStorage.getItem("geoLocation2")) }
   };
 
   let map = new google.maps.Map(document.getElementById("map"), main);
 
   let marker = new google.maps.Marker({
-    position: { lat: Number(geoLocation1), lng: Number(geoLocation2) },
+    position: { lat: Number(localStorage.getItem("geoLocation1")), lng: Number(localStorage.getItem("geoLocation2")) },
     map: map,
     draggable: true
   });
