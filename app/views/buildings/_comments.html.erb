@@ -4,10 +4,12 @@
             '<div class="header head"><%=comment.comment_type%></div>'+
             '<div class="description"><p><%=comment.body%></p></div>'+
     '</div>'+
+    <% if current_user.id == comment.user.id %>
         '<div class="extra content">'+
             '<span class="left floated like">'+
                 '<i class="trash icon"></i>'+
                 '<%= link_to "Destroy", comment_path(comment.id), method: :delete, remote:true, data: { confirm: "Are you sure?"}, class:"destroy" %>'+
             '</span>'+
         '</div>'+
+    <% end %>
 '</div>'

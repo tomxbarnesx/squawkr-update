@@ -190,8 +190,7 @@ function codeAddress(address) {
     if (status == "OK") {
       geoLocation = results[0].geometry.location;
 
-      console.log(results[0].geometry.bounds.f["f"]);
-      console.log(results[0].geometry.bounds.b["f"]);
+      console.log(results)
 
       let geoLocation1 = results[0].geometry.bounds.b["f"];
       let geoLocation2 = results[0].geometry.bounds.f["f"];

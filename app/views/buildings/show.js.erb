@@ -4,5 +4,5 @@ $("#cont").empty();
 
 <% @comments.each do |comment| %>
     document.getElementById("cont").innerHTML += <%= render partial: 'buildings/comments', locals: { comment: comment } %>
-  <% end %>
+<% end %>
 
