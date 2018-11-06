@@ -192,6 +192,7 @@ function codeAddress(address) {
 
       
       console.log(results)
+      console.log(address)
 
       let geoLocation1 = (Number(results[0].geometry.bounds["j"]["j"]) + Number(results[0].geometry.bounds["j"]["l"])) / 2;
       let geoLocation2 = (Number(results[0].geometry.bounds["l"]["j"]) + Number(results[0].geometry.bounds["l"]["l"])) / 2;
@@ -199,6 +200,7 @@ function codeAddress(address) {
       console.log(geoLocation2);
       localStorage.setItem("geoLocation1", geoLocation1);
       localStorage.setItem("geoLocation2", geoLocation2);
+      localStorage.setItem("address", address);
     } else {
       alert("Geocode was not successful for the following reason: " + status);
     }
@@ -215,15 +217,20 @@ function fillInAddress() {
 }
 
 function initMap() {
+
+  var geoLocationLat = Number(localStorage.getItem("geoLocation1"));
+  var geoLocationLng = Number(localStorage.getItem("geoLocation2"));
+  var geoAddress = localStorage.getItem("address");
+  
   let main = {
     zoom: 16,
-    center: { lat: Number(localStorage.getItem("geoLocation1")), lng: Number(localStorage.getItem("geoLocation2")) }
+    center: { lat: geoLocationLat, lng: geoLocationLng }
   };
 
   let map = new google.maps.Map(document.getElementById("map"), main);
 
   let marker = new google.maps.Marker({
-    position: { lat: Number(localStorage.getItem("geoLocation1")), lng: Number(localStorage.getItem("geoLocation2")) },
+    position: { lat: geoLocationLat, lng: geoLocationLng },
     map: map,
     draggable: true
   });
@@ -232,11 +239,8 @@ function initMap() {
     document.getElementById("mapSearch")
   );
 
-  if (document.getElementById("mapSearch").value != null) {
-    let splitted = document
-      .getElementById("mapSearch")
-      .value.toUpperCase()
-      .split(" ");
+  if (geoAddress.value != null) {
+    let splitted = geoAddress.toUpperCase().split(" ");
 
     console.log(splitted);
 
@@ -376,6 +380,8 @@ function initMap() {
     });
     // END RODENT 1
   }
+
+  //FROM HERE DOWN. THIS CODE WORKS GREAT. =>
 
   map.addListener("bounds_changed", function() {
     searchBox.setBounds(map.getBounds());
